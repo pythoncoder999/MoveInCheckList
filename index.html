@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Move-In Checklist</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        
+        .checklist-item:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+        
+        .checklist-item.completed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #28a745;
+        }
+        
+        .checklist-item label {
+            flex: 1;
+            font-size: 1.1em;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        
+        .checklist-item .main-text {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .checklist-item .sub-text {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .progress-container {
+            margin-bottom: 30px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .progress-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .completion-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .completion-message h2 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        
+        .completion-message p {
+            color: #155724;
+            font-size: 1.1em;
+        }
+        
+        .reset-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+        
+        .reset-btn:hover {
+            background: #c82333;
+        }
+        
+        .notes-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .notes-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .notes-section textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 Rental Move-In Checklist</h1>
+        
+        <div class="progress-container">
+            <div class="progress-text">Progress: <span id="progressText">0 of 5 completed</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="checklist">
+            <div class="checklist-item">
+                <input type="checkbox" id="deposit" onchange="updateProgress()">
+                <label for="deposit">
+                    <div class="main-text">💰 Deposit Payment</div>
+                    <div class="sub-text">Submit security deposit and first month's rent</div>
+                </label>
+            </div>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="rental" onchange="updateProgress()">
+                <label for="rental">
+                    <div class="main-text">🏡 Rental Payment</div>
+                    <div class="sub-text">Set up monthly rent payment method</div>
+                </label>
+            </div>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="utilities" onchange="updateProgress()">
+                <label for="utilities">
+                    <div class="main-text">⚡ Utilities Transfer</div>
+                    <div class="sub-text">
+                        Electric: Linn County Electric<br>
+                        Water: Marion Water Department<br>
+                        Gas: Mid American
+                    </div>
+                </label>
+            </div>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="mover" onchange="updateProgress()">
+                <label for="mover">
+                    <div class="main-text">🚚 Mover</div>
+                    <div class="sub-text">Schedule and confirm moving company or truck rental</div>
+                </label>
+            </div>
+            
+            <div class="checklist-item">
+                <input type="checkbox" id="address" onchange="updateProgress()">
+                <label for="address">
+                    <div class="main-text">📮 Change of Address</div>
+                    <div class="sub-text">Submit change of address form with USPS</div>
+                </label>
+            </div>
+        </div>
+        
+        <div class="completion-message" id="completionMessage">
+            <h2>🎉 Congratulations!</h2>
+            <p>You've completed all the move-in checklist items. You're ready for your new home!</p>
+            <button class="reset-btn" onclick="resetChecklist()">Reset Checklist</button>
+        </div>
+        
+        <div class="notes-section">
+            <h3>📝 Additional Notes</h3>
+            <textarea id="notes" placeholder="Add any additional notes, contact information, or reminders here..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const total = checkboxes.length;
+            const completed = checkedBoxes.length;
+            const percentage = (completed / total) * 100;
+            
+            // Update progress bar
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed} of ${total} completed`;
+            
+            // Update checklist item styling
+            checkboxes.forEach(checkbox => {
+                const item = checkbox.closest('.checklist-item');
+                if (checkbox.checked) {
+                    item.classList.add('completed');
+                } else {
+                    item.classList.remove('completed');
+                }
+            });
+            
+            // Show completion message
+            const completionMessage = document.getElementById('completionMessage');
+            if (completed === total) {
+                completionMessage.style.display = 'block';
+                // Add confetti effect
+                createConfetti();
+            } else {
+                completionMessage.style.display = 'none';
+            }
+            
+            // Save progress to localStorage
+            saveProgress();
+        }
+        
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            document.getElementById('notes').value = '';
+            updateProgress();
+            localStorage.removeItem('checklistProgress');
+        }
+        
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const progress = {};
+            
+            checkboxes.forEach(checkbox => {
+                progress[checkbox.id] = checkbox.checked;
+            });
+            
+            progress.notes = document.getElementById('notes').value;
+            
+            // Note: localStorage is not available in Claude artifacts, so this is for when you use it on your own site
+            try {
+                localStorage.setItem('checklistProgress', JSON.stringify(progress));
+            } catch (e) {
+                // Silently fail if localStorage is not available
+            }
+        }
+        
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('checklistProgress');
+                if (saved) {
+                    const progress = JSON.parse(saved);
+                    
+                    Object.keys(progress).forEach(key => {
+                        if (key === 'notes') {
+                            document.getElementById('notes').value = progress[key];
+                        } else {
+                            const checkbox = document.getElementById(key);
+                            if (checkbox) {
+                                checkbox.checked = progress[key];
+                            }
+                        }
+                    });
+                    
+                    updateProgress();
+                }
+            } catch (e) {
+                // Silently fail if localStorage is not available
+            }
+        }
+        
+        function createConfetti() {
+            // Simple confetti animation
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Add CSS animation for confetti
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Load saved progress when page loads
+        window.addEventListener('load', loadProgress);
+        
+        // Auto-save notes
+        document.getElementById('notes').addEventListener('input', saveProgress);
+        
+        // Initialize progress on page load
+        updateProgress();
+    </script>
+</body>
+</html>
