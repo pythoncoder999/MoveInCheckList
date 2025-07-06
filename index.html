@@ -165,7 +165,7 @@
                 <input type="checkbox" id="deposit" onchange="updateProgress()">
                 <div class="item-content">
                     <div class="item-title">💰 Deposit Payment</div>
-                    <div class="item-details">Finish the leasing sign and submit security deposit and first month's rent</div>
+                    <div class="item-details">Finish the leasing sign and submit security deposit</div>
                 </div>
             </div>
         </div>
@@ -175,7 +175,7 @@
                 <input type="checkbox" id="rental" onchange="updateProgress()">
                 <div class="item-content">
                     <div class="item-title">🏡 Rental Payment</div>
-                    <div class="item-details">Set up ongoing rent payment method</div>
+                    <div class="item-details">Submit first month's rent and ongoing rent payment method</div>
                 </div>
             </div>
         </div>
@@ -187,20 +187,38 @@
                     <div class="item-title">⚡ Utilities Transfer</div>
                     <div class="item-details">Transfer or set up utilities for your new address</div>
                     <div class="utility-links">
-                        <a href="https://www.linncountyrec.com/my-account/account-resources/start-stop-service" target="_blank">
-                            Linn County Electric
-                        </a>
-                        <div class="phone-number">📞 1-800-332-5420</div>
+                        <div style="margin-bottom: 15px;">
+                            <input type="checkbox" id="electric" style="margin-right: 8px;">
+                            <label for="electric">Electric Service</label>
+                            <div style="margin-left: 28px;">
+                                <a href="https://www.linncountyrec.com/my-account/account-resources/start-stop-service" target="_blank">
+                                    Linn County Electric
+                                </a>
+                                <div class="phone-number">📞 1-800-332-5420</div>
+                            </div>
+                        </div>
                         
-                        <a href="http://www.cityofmarion.org/departments/water" target="_blank">
-                            Marion Water Department
-                        </a>
-                        <div class="phone-number">📞 319-743-6310</div>
+                        <div style="margin-bottom: 15px;">
+                            <input type="checkbox" id="water" style="margin-right: 8px;">
+                            <label for="water">Water Service</label>
+                            <div style="margin-left: 28px;">
+                                <a href="http://www.cityofmarion.org/departments/water" target="_blank">
+                                    Marion Water Department
+                                </a>
+                                <div class="phone-number">📞 319-743-6310</div>
+                            </div>
+                        </div>
                         
-                        <a href="https://www.midamericanenergy.com/moving.aspx" target="_blank">
-                            Mid American Gas
-                        </a>
-                        <div class="phone-number">📞 1-888-427-5632</div>
+                        <div style="margin-bottom: 15px;">
+                            <input type="checkbox" id="gas" style="margin-right: 8px;">
+                            <label for="gas">Gas Service</label>
+                            <div style="margin-left: 28px;">
+                                <a href="https://www.midamericanenergy.com/moving.aspx" target="_blank">
+                                    Mid American Gas
+                                </a>
+                                <div class="phone-number">📞 1-888-427-5632</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
