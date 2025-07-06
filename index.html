@@ -7,42 +7,44 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
             min-height: 100vh;
-            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
             background: white;
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
         }
         
         h1 {
+            color: #333;
             text-align: center;
-            color: #2c3e50;
             margin-bottom: 30px;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 28px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
         }
         
         .checklist-item {
-            display: flex;
-            align-items: center;
             margin-bottom: 20px;
             padding: 15px;
             background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 5px solid #3498db;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
             transition: all 0.3s ease;
         }
         
         .checklist-item:hover {
-            background: #e3f2fd;
+            background: #e9ecef;
             transform: translateX(5px);
         }
         
@@ -51,47 +53,65 @@
             border-left-color: #28a745;
         }
         
-        .checklist-item input[type="checkbox"] {
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        input[type="checkbox"] {
             width: 20px;
             height: 20px;
-            margin-right: 15px;
             cursor: pointer;
-            accent-color: #28a745;
+            margin-top: 2px;
         }
         
-        .checklist-item label {
+        .item-content {
             flex: 1;
-            font-size: 1.1em;
-            cursor: pointer;
-            line-height: 1.4;
         }
         
-        .checklist-item .main-text {
+        .item-title {
             font-weight: bold;
-            color: #2c3e50;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
         }
         
-        .checklist-item .sub-text {
-            color: #6c757d;
-            font-size: 0.9em;
-            margin-top: 5px;
+        .item-details {
+            color: #666;
+            font-size: 14px;
         }
         
-        .progress-container {
-            margin-bottom: 30px;
-            background: #ecf0f1;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
+        .utility-links {
+            margin-top: 8px;
+        }
+        
+        .utility-links a {
+            display: inline-block;
+            margin-right: 15px;
+            margin-bottom: 5px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        
+        .utility-links a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
         }
         
         .progress-bar {
             width: 100%;
-            height: 20px;
-            background: #dee2e6;
-            border-radius: 10px;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin: 20px 0;
             overflow: hidden;
-            margin: 15px 0;
         }
         
         .progress-fill {
@@ -99,33 +119,13 @@
             background: linear-gradient(90deg, #28a745, #20c997);
             width: 0%;
             transition: width 0.5s ease;
-            border-radius: 10px;
         }
         
         .progress-text {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .completion-message {
-            background: #d4edda;
-            border: 2px solid #28a745;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
             text-align: center;
-            display: none;
-        }
-        
-        .completion-message h2 {
-            color: #155724;
-            margin-bottom: 10px;
-        }
-        
-        .completion-message p {
-            color: #155724;
-            font-size: 1.1em;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
         }
         
         .reset-btn {
@@ -135,7 +135,7 @@
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 14px;
             margin-top: 20px;
             transition: background 0.3s ease;
         }
@@ -144,26 +144,10 @@
             background: #c82333;
         }
         
-        .notes-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .notes-section h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .notes-section textarea {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            font-family: Arial, sans-serif;
-            resize: vertical;
+        .phone-number {
+            color: #555;
+            font-size: 13px;
+            margin-top: 3px;
         }
     </style>
 </head>
@@ -171,86 +155,102 @@
     <div class="container">
         <h1>🏠 Rental Move-In Checklist</h1>
         
-        <div class="progress-container">
-            <div class="progress-text">Progress: <span id="progressText">0 of 5 completed</span></div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
+        <div class="progress-text" id="progressText">0% Complete (0 of 5 items)</div>
         
-        <div class="checklist">
-            <div class="checklist-item">
+        <div class="checklist-item" id="item1">
+            <div class="checkbox-container">
                 <input type="checkbox" id="deposit" onchange="updateProgress()">
-                <label for="deposit">
-                    <div class="main-text">💰 Deposit Payment</div>
-                    <div class="sub-text">Submit security deposit and first month's rent</div>
-                </label>
+                <div class="item-content">
+                    <div class="item-title">💰 Deposit Payment</div>
+                    <div class="item-details">Submit security deposit and first month's rent</div>
+                </div>
             </div>
-            
-            <div class="checklist-item">
+        </div>
+        
+        <div class="checklist-item" id="item2">
+            <div class="checkbox-container">
                 <input type="checkbox" id="rental" onchange="updateProgress()">
-                <label for="rental">
-                    <div class="main-text">🏡 Rental Payment</div>
-                    <div class="sub-text">Set up monthly rent payment method</div>
-                </label>
+                <div class="item-content">
+                    <div class="item-title">🏡 Rental Payment</div>
+                    <div class="item-details">Set up ongoing rent payment method</div>
+                </div>
             </div>
-            
-            <div class="checklist-item">
+        </div>
+        
+        <div class="checklist-item" id="item3">
+            <div class="checkbox-container">
                 <input type="checkbox" id="utilities" onchange="updateProgress()">
-                <label for="utilities">
-                    <div class="main-text">⚡ Utilities Transfer</div>
-                    <div class="sub-text">
-                        Electric: Linn County Electric<br>
-                        Water: Marion Water Department<br>
-                        Gas: Mid American
+                <div class="item-content">
+                    <div class="item-title">⚡ Utilities Transfer</div>
+                    <div class="item-details">Transfer or set up utilities for your new address</div>
+                    <div class="utility-links">
+                        <a href="https://www.linncountyrec.com/my-account/account-resources/start-stop-service" target="_blank">
+                            Linn County Electric
+                        </a>
+                        <div class="phone-number">📞 1-800-332-5420</div>
+                        
+                        <a href="http://www.cityofmarion.org/departments/water" target="_blank">
+                            Marion Water Department
+                        </a>
+                        <div class="phone-number">📞 319-743-6310</div>
+                        
+                        <a href="https://www.midamericanenergy.com/moving.aspx" target="_blank">
+                            Mid American Gas
+                        </a>
+                        <div class="phone-number">📞 1-888-427-5632</div>
                     </div>
-                </label>
+                </div>
             </div>
-            
-            <div class="checklist-item">
+        </div>
+        
+        <div class="checklist-item" id="item4">
+            <div class="checkbox-container">
                 <input type="checkbox" id="mover" onchange="updateProgress()">
-                <label for="mover">
-                    <div class="main-text">🚚 Mover</div>
-                    <div class="sub-text">Schedule and confirm moving company or truck rental</div>
-                </label>
+                <div class="item-content">
+                    <div class="item-title">🚚 Mover</div>
+                    <div class="item-details">Book and confirm moving service or truck rental</div>
+                </div>
             </div>
-            
-            <div class="checklist-item">
+        </div>
+        
+        <div class="checklist-item" id="item5">
+            <div class="checkbox-container">
                 <input type="checkbox" id="address" onchange="updateProgress()">
-                <label for="address">
-                    <div class="main-text">📮 Change of Address</div>
-                    <div class="sub-text">Submit change of address form with USPS</div>
-                </label>
+                <div class="item-content">
+                    <div class="item-title">📬 Change of Address</div>
+                    <div class="item-details">Update your address with USPS and other services</div>
+                    <div class="utility-links">
+                        <a href="https://moversguide.usps.com/mgo/disclaimer" target="_blank">
+                            USPS Address Change
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="completion-message" id="completionMessage">
-            <h2>🎉 Congratulations!</h2>
-            <p>You've completed all the move-in checklist items. You're ready for your new home!</p>
-            <button class="reset-btn" onclick="resetChecklist()">Reset Checklist</button>
-        </div>
-        
-        <div class="notes-section">
-            <h3>📝 Additional Notes</h3>
-            <textarea id="notes" placeholder="Add any additional notes, contact information, or reminders here..."></textarea>
-        </div>
+        <button class="reset-btn" onclick="resetChecklist()">Reset Checklist</button>
     </div>
 
     <script>
         function updateProgress() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            const total = checkboxes.length;
-            const completed = checkedBoxes.length;
-            const percentage = (completed / total) * 100;
+            const checkedCount = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const totalCount = checkboxes.length;
+            const percentage = Math.round((checkedCount / totalCount) * 100);
             
             // Update progress bar
-            document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = `${completed} of ${total} completed`;
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
             
-            // Update checklist item styling
-            checkboxes.forEach(checkbox => {
-                const item = checkbox.closest('.checklist-item');
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${percentage}% Complete (${checkedCount} of ${totalCount} items)`;
+            
+            // Update individual item styling
+            checkboxes.forEach((checkbox, index) => {
+                const item = document.getElementById(`item${index + 1}`);
                 if (checkbox.checked) {
                     item.classList.add('completed');
                 } else {
@@ -258,18 +258,30 @@
                 }
             });
             
-            // Show completion message
-            const completionMessage = document.getElementById('completionMessage');
-            if (completed === total) {
-                completionMessage.style.display = 'block';
-                // Add confetti effect
-                createConfetti();
-            } else {
-                completionMessage.style.display = 'none';
+            // Celebration effect when all items are completed
+            if (checkedCount === totalCount) {
+                celebrateCompletion();
             }
             
             // Save progress to localStorage
             saveProgress();
+        }
+        
+        function celebrateCompletion() {
+            // Change progress bar to celebration colors
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.background = 'linear-gradient(90deg, #FFD700, #FFA500, #FF6347)';
+            
+            // Show celebration message
+            const progressText = document.getElementById('progressText');
+            progressText.innerHTML = '🎉 Congratulations! All items completed! 🎉';
+            progressText.style.color = '#28a745';
+            
+            // Reset colors after 3 seconds
+            setTimeout(() => {
+                progressFill.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
+                progressText.style.color = '#333';
+            }, 3000);
         }
         
         function resetChecklist() {
@@ -277,7 +289,6 @@
             checkboxes.forEach(checkbox => {
                 checkbox.checked = false;
             });
-            document.getElementById('notes').value = '';
             updateProgress();
             localStorage.removeItem('checklistProgress');
         }
@@ -285,90 +296,30 @@
         function saveProgress() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const progress = {};
-            
             checkboxes.forEach(checkbox => {
                 progress[checkbox.id] = checkbox.checked;
             });
-            
-            progress.notes = document.getElementById('notes').value;
-            
-            // Note: localStorage is not available in Claude artifacts, so this is for when you use it on your own site
-            try {
-                localStorage.setItem('checklistProgress', JSON.stringify(progress));
-            } catch (e) {
-                // Silently fail if localStorage is not available
-            }
+            localStorage.setItem('checklistProgress', JSON.stringify(progress));
         }
         
         function loadProgress() {
-            try {
-                const saved = localStorage.getItem('checklistProgress');
-                if (saved) {
-                    const progress = JSON.parse(saved);
-                    
-                    Object.keys(progress).forEach(key => {
-                        if (key === 'notes') {
-                            document.getElementById('notes').value = progress[key];
-                        } else {
-                            const checkbox = document.getElementById(key);
-                            if (checkbox) {
-                                checkbox.checked = progress[key];
-                            }
-                        }
-                    });
-                    
-                    updateProgress();
-                }
-            } catch (e) {
-                // Silently fail if localStorage is not available
+            const saved = localStorage.getItem('checklistProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                Object.keys(progress).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = progress[id];
+                    }
+                });
+                updateProgress();
             }
         }
-        
-        function createConfetti() {
-            // Simple confetti animation
-            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b'];
-            const confettiCount = 50;
-            
-            for (let i = 0; i < confettiCount; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.position = 'fixed';
-                confetti.style.left = Math.random() * window.innerWidth + 'px';
-                confetti.style.top = '-10px';
-                confetti.style.width = '10px';
-                confetti.style.height = '10px';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.borderRadius = '50%';
-                confetti.style.pointerEvents = 'none';
-                confetti.style.zIndex = '9999';
-                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                
-                document.body.appendChild(confetti);
-                
-                setTimeout(() => {
-                    confetti.remove();
-                }, 5000);
-            }
-        }
-        
-        // Add CSS animation for confetti
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fall {
-                to {
-                    transform: translateY(100vh) rotate(360deg);
-                }
-            }
-        `;
-        document.head.appendChild(style);
         
         // Load saved progress when page loads
-        window.addEventListener('load', loadProgress);
-        
-        // Auto-save notes
-        document.getElementById('notes').addEventListener('input', saveProgress);
-        
-        // Initialize progress on page load
-        updateProgress();
+        window.onload = function() {
+            loadProgress();
+        };
     </script>
 </body>
 </html>
